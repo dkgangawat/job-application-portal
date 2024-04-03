@@ -4,7 +4,7 @@ const page: React.FC = () => {
   return (
     <div>
       {/* gradient div from let to right with 3 colors */}
-      <div className="w-full mb-10 h-80 bg-gradient-to-r rounded-xl p-2 from-[#8ccab5] from-10% via-40% via-[#fcc550]  to-[#e9420e] to-100% relative">
+      <div className="w-full mb-20 sm:mb-10 h-80 bg-gradient-to-r rounded-xl p-2 from-[#8ccab5] from-10% via-40% via-[#fcc550]  to-[#e9420e] to-100% relative">
         <div className="flex flex-col justify-center items-center h-full text-center gap-4">
           <h1 className="text-4xl font-bold text-white">
             Search for your next job
