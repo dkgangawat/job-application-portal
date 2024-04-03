@@ -17,20 +17,7 @@ const Header: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="sm:hidden"
             >
-              <svg
-                className="w-6 h-6 mr-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              </svg>
+              <img src="hamburger.svg" alt="menu" className="w-6 h-6" />
             </button>
 
             <div
@@ -98,21 +85,7 @@ const Header: React.FC = () => {
               setIsOpen(false);
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="h-6 w-6"
-            >
-              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-            </svg>
+            <img src="bell.svg" alt="Notification" className="w-6 h-6" />
             {/* notification Dropdown */}
             <div
               className={`absolute right-0 top-8 mt-2 py-2 flex flex-col bg-white rounded shadow-lg w-[350px] min-h-[400px] ${
