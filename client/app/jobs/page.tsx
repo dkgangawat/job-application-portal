@@ -10,8 +10,8 @@ const page: React.FC = () => {
             Search for your next job
           </h1>
           <p className="text-white text-center">
-            When you're searching for a job, there are a few things you can do
-            to get the most out of your search
+            When you`&apos;`re searching for a job, there are a few things you
+            can do to get the most out of your search
           </p>
 
           {/* search bar  */}
