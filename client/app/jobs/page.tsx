@@ -3,7 +3,7 @@ import OverlayModel from "@/components/OverlayModel";
 import JobCard from "@/components/jobCard";
 import React, { useState } from "react";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   const [openJobModel, setOpenJobModel] = useState(false);
 
   return (
@@ -71,4 +71,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;
