@@ -17,6 +17,7 @@ const config: Config = {
         "gray-1": "#84839a",
         "gray-2": "#7D7D7D",
         "gray-3": "#f6f4fc",
+        "orange-1" :"#F25406",
         "accent-2": "#EAEAEA",
         "accent-7": "#333",
         success: "#0070f3",

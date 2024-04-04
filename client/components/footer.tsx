@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const footerLinks = [
@@ -40,7 +41,7 @@ const footerLinks = [
 const Footer: React.FC = () => {
   return (
     <footer className="bg-white mt-10">
-      <div className=" py-12 px-4 sm:px-6 lg:px-8">
+      <div className=" py-12 ">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-b pb-4">
           {footerLinks.map((group) => (
             <div key={group.title}>
@@ -50,12 +51,12 @@ const Footer: React.FC = () => {
               <ul className="mt-4 space-y-2">
                 {group.links.map((link) => (
                   <li key={link.title}>
-                    <a
+                    <Link
                       href={link.url}
                       className="text-base text-gray-2   hover:text-gray-900"
                     >
                       {link.title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
