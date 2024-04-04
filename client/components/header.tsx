@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 type headerLinks = {
@@ -20,6 +21,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const pathName = usePathname()
   return (
     <header className=" flex items-center justify-center  py-4 text-gray-1 relative font-bold border-b">
       <div className=" container flex items-center justify-between">
@@ -67,15 +69,20 @@ const Header: React.FC = () => {
 
           <img src="logo.png" alt="logo" className="w-8 h-8 rounded-full" />
           <div className="ml-4 space-x-4 hidden sm:block">
-            {headerLinks.map((link) => (
-              <Link
+            {headerLinks.map((link) => {
+              const activeStyle = link.url === pathName? "text-black" : "";
+              return (
+                <Link
                 key={link.title}
                 href={link.url}
-                className="py-2 hover:text-black"
+                className={`py-2 hover:text-black active:text-black  ${activeStyle}`}
               >
-                {link.title}
+                {link.title}  
               </Link>
-            ))}
+              )
+            }
+             
+            )}
           </div>
         </div>
         <div className="flex items-center relative ">

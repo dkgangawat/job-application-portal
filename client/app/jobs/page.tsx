@@ -1,6 +1,7 @@
 "use client";
 import OverlayModel from "@/components/OverlayModel";
 import JobCard from "@/components/jobCard";
+import JobSearchCard from "@/components/jobSearchCard";
 import React, { useState } from "react";
 
 const Page: React.FC = () => {
@@ -48,8 +49,13 @@ const Page: React.FC = () => {
           <span className=" mx-2  text-black">Post your resume</span>
         </p>
       </div>
-      <section>
+      <section className=" mb-10">
         <h5 className=" font-semibold my-4">Suggested job searches</h5>
+        <div className=" flex justify-center flex-wrap gap-2 font-bold ">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <JobSearchCard key={i} />
+          ))}
+        </div>
       </section>
       <section className="">
         <h5 className=" font-semibold my-4">Recommended for you</h5>
