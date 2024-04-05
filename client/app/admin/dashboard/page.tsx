@@ -65,17 +65,13 @@ const Page = () => {
                     >
                         Prev
                     </button>
-                    {[...Array(data.pages)].map((_, index) => (
+                 
                         <button
-                            key={index}
-                            className={`p-2 px-4 rounded-lg ${
-                                page === index + 1 ? 'bg-gray-700 text-white' : ''
+                            className={`p-2 px-4 rounded-lg bg-gray-2 text-white
                             }`}
-                            onClick={() => setPage(index + 1)}
                         >
-                            {index + 1}
+                           {page}
                         </button>
-                    ))}
                     <button
                         className='p-2 px-4 rounded-lg bg-gray-3'
                         disabled={page === data.pages                        }

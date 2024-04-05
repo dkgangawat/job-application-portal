@@ -13,7 +13,7 @@ const Page: React.FC = () => {
 
   const {data, isLoading, isError , error} = useQuery({
     queryKey:["jobs"],
-    queryFn: getJobs
+    queryFn: ()=> getJobs(1)
   })
 
   if(isLoading) return <p>Loading...</p>

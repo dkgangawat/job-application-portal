@@ -4,7 +4,7 @@ import axiosClient from "@/utils/axiosClient";
 
 export const getJobs = async (page?:number) => {
   let currentPage = page || 1;
-  const response = await axiosClient.get("/all-jobs", { params: { page:currentPage, limit:2 } });
+  const response = await axiosClient.get("/all-jobs", { params: { page:currentPage ,limit:10 } });
   console.log(response)
   return response.data;
 };
