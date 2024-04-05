@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useRef } from "react";
 
 type headerLinks = {
   title: string;
@@ -21,7 +21,32 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const menuRef = useRef< HTMLDivElement>(null)
+  const notificationRef = useRef<HTMLDivElement>(null)
+  const profileRef = useRef<HTMLDivElement>(null)
   const pathName = usePathname()
+
+
+  //function to handle click outside
+  const handleClickOutside = (e: any) => {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setIsMobileMenuOpen(false);
+    }
+    if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+      setIsNotificationOpen(false);
+    }
+    if (profileRef.current && !profileRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className=" flex items-center justify-center  py-4 text-gray-1 relative font-bold border-b">
       <div className=" container flex items-center justify-between">
@@ -39,6 +64,8 @@ const Header: React.FC = () => {
               className={`absolute top-16 sm:hidden left-0 w-full z-10 bg-white shadow-lg rounded-lg p-4 ${
                 isMobileMenuOpen ? "" : "hidden"
               }`}
+              ref={menuRef}
+
             >
               {headerLinks.map((link) => (
                 <Link
@@ -94,17 +121,20 @@ const Header: React.FC = () => {
             }}
           >
             <img src="bell.svg" alt="Notification" className="w-6 h-6" />
+          
+          </button>
             {/* notification Dropdown */}
-            <div
+            <div 
               className={`absolute z-10  right-0 top-8 mt-2 py-2 flex flex-col bg-white rounded shadow-lg w-[350px] min-h-[400px] ${
                 isNotificationOpen ? "" : "hidden"
               }`}
+              ref={notificationRef}
+
             >
               <div className="flex flex-1 items-center w-full h-full justify-center">
                 <p className="text-gray-1">No Notifications Yet!</p>
               </div>
             </div>
-          </button>
           <button
             onClick={() => {
               setIsOpen(!isOpen);
@@ -121,6 +151,7 @@ const Header: React.FC = () => {
             className={`absolute right-0 top-8  mt-2 py-2 w-[200px] bg-white rounded shadow-lg z-10 ${
               isOpen ? "" : "hidden"
             }`}
+            ref={profileRef}
           >
             <h3 className="text-gray-1 text-center py-2 border-b">John Doe</h3>
             <ul>

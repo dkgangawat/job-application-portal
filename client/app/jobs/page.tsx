@@ -2,10 +2,20 @@
 import OverlayModel from "@/components/OverlayModel";
 import JobCard from "@/components/jobCard";
 import JobSearchCard from "@/components/jobSearchCard";
-import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { Key, useState } from "react";
+import { getJobs } from "../api/jobs";
 
 const Page: React.FC = () => {
   const [openJobModel, setOpenJobModel] = useState(false);
+  const [overLayJob, setOverLayJob] = useState<Job>({title:"", company:"", location:"", salary:0, description:"", _id:""});
+
+  const {data, isLoading, isError , error} = useQuery({
+    queryKey:["jobs"],
+    queryFn: getJobs
+  })
+
+  if(isLoading) return <p>Loading...</p>
 
   return (
     <>
@@ -60,21 +70,32 @@ const Page: React.FC = () => {
       <section className="">
         <h5 className=" font-semibold my-4">Recommended for you</h5>
         <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {Array.from({ length: 3 }).map((_, i) => (
+          {data.jobs.map((job:Job, index:Key) => (
             <li
-              key={i}
+              key={job._id}
               onClick={() => {
                 setOpenJobModel(true);
+                setOverLayJob(job);
               }}
             >
-              <JobCard />
+              <JobCard title={job.title} company={job.company} salary={job.salary} location={job.location} />
             </li>
           ))}
         </ul>
       </section>
-      {openJobModel && <OverlayModel setClose={setOpenJobModel} />}
+      {openJobModel && <OverlayModel location={overLayJob.location}  title={overLayJob.title} description={overLayJob.description} company={overLayJob.company} setClose={setOpenJobModel} />}
     </>
   );
 };
+
+type Job = {
+  title: string;
+  company: string;
+  location: string;
+  salary: number;
+  description: string;
+  _id : string;
+};
+
 
 export default Page;

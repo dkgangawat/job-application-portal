@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import ReactQueryProvider from "@/utils/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body className={` flex flex-col items-center`}>
         <div className=" px-4 container w-full sm:w-[90%] mx-auto">
           <Header />
+          <ReactQueryProvider>
           {children}
+          </ReactQueryProvider>
           <Footer />
         </div>
       </body>

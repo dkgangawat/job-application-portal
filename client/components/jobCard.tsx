@@ -1,7 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
-const JobCard: React.FC = () => {
+type JobCardProps = {
+  title: string;
+  company: string;
+  location: string;
+  salary: number;
+};
+
+const JobCard: React.FC<JobCardProps> = ({ title, company, location, salary }) => {
   return (
     <>
       <div className=" border shadow-md rounded-md p-4 flex flex-col gap-4">
@@ -15,21 +22,22 @@ const JobCard: React.FC = () => {
           />
         </div>
         <div className=" font-semibold">
-          <h2 className="text-xl font-bold">Job title</h2>
+          <h2 className="text-xl font-bold">{title}</h2>
           <div className=" flex gap-2">
-            <span className="text-gray-1">Location</span>
+            <span className="text-gray-1">{location}</span>
             <span className="text-gray-1">•</span>
-            <span className="text-gray-1">Company name</span>
+            <span className="text-gray-1">{company}</span>
           </div>
         </div>
         <div>
           <span className=" px-4 py-1 rounded-[20px] bg-gray-3 text-center border">
-            <span className=" font-bold">Full-time</span>
+            <span className=" font-bold">{`$ ${salary}/month`}</span>
           </span>
         </div>
       </div>
     </>
   );
 };
+
 
 export default JobCard;
