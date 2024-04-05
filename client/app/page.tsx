@@ -1,13 +1,16 @@
-'use client'
+"use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
-  router.push("/jobs");
+  useEffect(() => {
+    router.push("/jobs");
+  }, [router]);
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Redirecting to job..</h1>
     </div>
   );
 }
