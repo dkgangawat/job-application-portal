@@ -43,6 +43,7 @@ const getJobs = async (req: Request, res: Response) => {
       jobs,
       page,
       pages: Math.ceil(totalJobs / limit),
+      totalJobs,
     });
   } catch (error: any) {
     console.log(error.message);

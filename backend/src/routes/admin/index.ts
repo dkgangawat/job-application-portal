@@ -3,7 +3,7 @@ import { jobController } from "../../controller/jobController";
 
 const router = Router();
 
-router.get("/", jobController.getJobs);
+router.get("/all-jobs", jobController.getJobs);
 router.post("/", jobController.addJob);
 router.get("/:id", jobController.getJob);
 router.put("/:id", jobController.updateJob);
