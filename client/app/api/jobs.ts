@@ -18,3 +18,13 @@ export const addJob = async (job: any) => {
   const response = await axiosClient.post("/admin", job);
   return response.data;
 };
+
+export const updateJob = async (job: any) => {
+  const response = await axiosClient.put(`/admin/${job._id}`, job);
+  return response.data;
+};
+
+export const deleteJob = async (id: string) => {
+  const response = await axiosClient.delete(`/admin/${id}`);
+  return response.data;
+};
