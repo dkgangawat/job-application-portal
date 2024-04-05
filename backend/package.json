@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
-    "vercel-build": "tsc",
+    "vercel-build": "echo 'vercel-build'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
