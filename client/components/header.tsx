@@ -14,7 +14,7 @@ const headerLinks: headerLinks[] = [
   { title: "Contacts", url: "#" },
   { title: "Jobs", url: "/jobs" },
   { title: "Messages", url: "#" },
-  { title: "Updates", url: "#" },
+  { title: "admin", url: "/admin/dashboard" },
 ];
 
 const Header: React.FC = () => {

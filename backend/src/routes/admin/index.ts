@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/all-jobs", jobController.getJobs);
 router.post("/", jobController.addJob);
-router.get("/:id", jobController.getJob);
+router.get("/job/:id", jobController.getJob);
 router.put("/:id", jobController.updateJob);
 router.delete("/:id", jobController.deleteJob);
 

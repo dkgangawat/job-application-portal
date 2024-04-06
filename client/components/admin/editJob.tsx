@@ -1,19 +1,26 @@
 "use client";
 import React from "react";
-import Overlay from "./overlay";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {  updateJob } from "@/app/api/jobs";
+import { useRouter } from "next/navigation";
 
 type AddJobProps = {
-  setClose: (value: boolean) => void;
   job: Job;
 };
 
-const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
+const EditJob: React.FC<AddJobProps> = ({ job }) => {
   const [jobToUpdated, setjobToUpdated] = React.useState({} as Job);
-  const { mutate, isPending, isSuccess } = useMutation({
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const { mutate, isPending } = useMutation({
     mutationKey: ["jobs", jobToUpdated],
     mutationFn: () => updateJob(jobToUpdated),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["jobs"],
+      });
+      router.push("/admin/dashboard");
+    },
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,19 +33,36 @@ const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
       location: formData.get("location") as string,
       salary: Number(formData.get("salary")),
       description: formData.get("description") as string,
+      createdAt: job.createdAt,
     };
     setjobToUpdated(jobData);
     mutate();
   };
 
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    return  d.toLocaleDateString() + " at " + d.toLocaleTimeString();
+  };
+
   return (
     <>
-      <Overlay setClose={setClose}>
-        <div className="max-w-[500px] mx-auto">
-          <h1 className="text-xl font-bold text-center text-gray-2 mb-4">
+        <div className=" mx-auto">
+          <h1 className="text-xl font-bold  text-gray-2 mb-4">
             Edit Job
           </h1>
-          <form onSubmit={handleSubmit} className="flex flex-wrap gap-2">
+          <div className=" flex gap-4 text-gray-2 font-semibold justify-between mb-4">
+            <div className="flex-1">
+              <span>Job ID</span>
+              <p className=" p-2 border border-gray-300 rounded w-full">{job._id}</p>
+            </div>
+            <div className=" flex-1"> 
+                 <span>Created At</span>
+              <p className="p-2 border border-gray-300 rounded w-full">{ formatDate(job.createdAt)}</p>
+            </div>
+           
+          </div>
+          <form onSubmit={handleSubmit} className="flex flex-wrap gap-2 text-gray-2 font-semibold">
+            <label htmlFor="title">Job Title</label>
             <input
               type="text"
               placeholder="Job Title"
@@ -46,6 +70,7 @@ const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
               defaultValue={job.title}
               className="p-2 border border-gray-300 rounded w-full "
             />
+            <label htmlFor="company">Company</label>
             <input
               type="text"
               placeholder="Company"
@@ -53,6 +78,7 @@ const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
               defaultValue={job.company}
               className="p-2 border border-gray-300 rounded w-full"
             />
+            <label htmlFor="location">Location</label>
             <input
               type="text"
               placeholder="Location"
@@ -60,6 +86,7 @@ const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
               defaultValue={job.location}
               className="p-2 border border-gray-300 rounded w-full"
             />
+            <label htmlFor="salary">Salary in $ per month</label>
             <input
               type="number"
               placeholder="Salary"
@@ -68,22 +95,22 @@ const EditJob: React.FC<AddJobProps> = ({ setClose, job }) => {
               defaultValue={job.salary}
               className="p-2 border border-gray-300 rounded w-full"
             />
+            <label htmlFor="description">Description</label>
             <textarea
               placeholder="Description"
               name="description"
               defaultValue={job.description}
-              className="p-2 border border-gray-300 rounded w-full h-32 resize-none"
+              className="p-2 border border-gray-300 rounded w-full min-h-32 resize-y"
             ></textarea>
             <button
               type="submit"
               disabled={isPending}
-              className="bg-[#000012] text-white p-2 rounded w-full"
+              className="bg-[#000012] text-white p-2 rounded w-20"
             >
-              {isPending ? "Adding Job..." : "Add Job"}
+              {isPending ? "Saving..." : "Save"}
             </button>
           </form>
         </div>
-      </Overlay>
     </>
   );
 };
@@ -95,6 +122,7 @@ type Job = {
   location: string;
   salary: number;
   description: string;
+  createdAt: string;
 };
 
 export default EditJob;

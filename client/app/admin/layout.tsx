@@ -18,7 +18,7 @@ export default function RootLayout({
   
   return (
         
-    <div className="flex h-screen">
+    <div className="flex h-screen container mx-auto">
       <SideBar />
     <div className="flex flex-col flex-1 overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b">

@@ -9,6 +9,12 @@ export const getJobs = async (page?:number) => {
   return response.data;
 };
 
+export const getJob = async (id: string) => {
+  const response = await axiosClient.get(`/admin/job/${id}`);
+  return response.data;
+};
+
+
 export const searchJobs = async (query: string) => {
   const response = await axiosClient.get(`/search?query=${query}`);
   return response.data;

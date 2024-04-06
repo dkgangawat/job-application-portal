@@ -1,24 +1,24 @@
 
 'use client'
 import React from "react";
-import Overlay from "./overlay";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addJob } from "@/app/api/jobs";
+import { useRouter } from "next/navigation";
 
-type AddJobProps = {
-    setClose: (value: boolean) => void;
-    };
 
-const AddJob:React.FC<AddJobProps> = ({setClose}) => {
+const AddJob:React.FC = () => {
     const queryClient = useQueryClient()
     const [jobToAdd, setJobToAdd] = React.useState({})
-    const {mutate, isPending , isSuccess} = useMutation({
+
+    const router = useRouter()
+    const {mutate, isPending } = useMutation({
         mutationKey: ['jobs'],
         mutationFn: () => addJob(jobToAdd),
         onSuccess:()=>{
             queryClient.invalidateQueries({
                 queryKey:['jobs']
             })
+            router.push('/admin/dashboard')
         }
     })
 
@@ -36,56 +36,58 @@ const AddJob:React.FC<AddJobProps> = ({setClose}) => {
     mutate()
   };
 
-    console.log(isPending)
 
   return (
     <>
-      <Overlay setClose={setClose}>
-        <div className="max-w-[500px] mx-auto">
-          <h1 className="text-xl font-bold text-center text-gray-2 mb-4">
+        <div className=" mx-auto">
+          <h1 className="text-xl font-bold  text-gray-2 mb-4">
             Add Job
           </h1>
-          <form onSubmit={handleSubmit} className="flex flex-wrap gap-2">
+          <form onSubmit={handleSubmit} className="flex flex-wrap gap-2 text-gray-2 font-semibold">
+            <label htmlFor="title">Job Title</label>
             <input
               type="text"
               placeholder="Job Title"
               name="title"
-              className="p-2 border border-gray-300 rounded w-full "
+              className="p-2 border border-gray-300 rounded w-full outline-none"
             />
+            <label htmlFor="company">Company</label>
             <input
               type="text"
               placeholder="Company"
               name="company"
-              className="p-2 border border-gray-300 rounded w-full"
+              className="p-2 border border-gray-300 rounded w-full outline-none"
             />
+            <label htmlFor="location">Location</label>
             <input
               type="text"
               placeholder="Location"
               name="location"
-              className="p-2 border border-gray-300 rounded w-full"
+              className="p-2 border border-gray-300 rounded w-full outline-none"
             />
+            <label htmlFor="salary">Salary in $ per month</label>
             <input
               type="number"
               placeholder="Salary"
               min={0}
               name="salary"
-              className="p-2 border border-gray-300 rounded w-full"
+              className="p-2 border border-gray-300 rounded w-full outline-none"
             />
+            <label htmlFor="description">Description</label>
             <textarea
               placeholder="Description"
               name="description"
-              className="p-2 border border-gray-300 rounded w-full h-32 resize-none"
+              className="p-2 border border-gray-300 rounded w-full h-32 resize-y"
             ></textarea>
             <button
               type="submit"
                 disabled={isPending}
-              className="bg-[#000012] text-white p-2 rounded w-full"
+              className="bg-[#000012] max-w-20 text-white p-2 rounded w-full outline-none"
             >
                 {isPending ? 'Adding Job...' : 'Add Job'}
             </button>
           </form>
         </div>
-      </Overlay>
     </>
   );
 };

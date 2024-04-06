@@ -11,7 +11,7 @@ const SideBar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   return (
-    <div className={`flex flex-col w-64 ${isSidebarOpen ? 'block' : 'hidden'} border-r`}>
+    <div className={`flex flex-col w-64 ${isSidebarOpen ? 'block' : 'hidden'} border-r hidden sm:block`}>
     <div className="flex items-center h-14 border-b border px-4">
         <Image src="/logo.png   " width={50} height={50} alt="logo" />
     </div>

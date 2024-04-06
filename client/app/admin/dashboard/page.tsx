@@ -1,41 +1,26 @@
 "use client";
-import { deleteJob, getJobs } from "@/app/api/jobs";
-import AddJob from "@/components/admin/addJob";
-import EditJob from "@/components/admin/editJob";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {  getJobs } from "@/app/api/jobs";
+import JobTable from "@/components/admin/table";
+import Pagination from "@/components/pagination";
+import {  useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Page = () => {
   const [page, setPage] = React.useState(1);
-  const [addJopPopup, setAddJobPopup] = React.useState(false);
-  const [editJobPopup, setEditJobPopup] = React.useState(false);
-  const [jobToEdit, setJobToEdit] = React.useState({} as Job);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["jobs", page],
     queryFn: () => getJobs(page),
   });
 
-  const handlePrevPage = () => {
-    setPage((prevPage) => prevPage - 1);
-  };
+ 
 
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+ 
 
-  const [deleteJobId, setDeleteJobId] = React.useState("" as string)
-  const queryClient = useQueryClient()
-  const {mutate:deleteJobM } = useMutation({
-    mutationFn: () =>deleteJob(deleteJobId),
-    onSuccess:()=>{
-        queryClient.invalidateQueries({
-            queryKey:["jobs",page]
-        })
-    }
-  })
+  const router = useRouter()
   if (isLoading) return <div>Loading...</div>;
-
+  if (isError) return <div>Something went wrong...</div>;
   return (
     <div>
       {/* card to show total number of jobs */}
@@ -65,97 +50,17 @@ const Page = () => {
         </form>
         <button
           className=" bg-green-600 text-white p-2 px-4 rounded-lg"
-          onClick={() => setAddJobPopup(true)}
+          onClick={() => router.push("/admin/create-job")}
         >
           Add Job
         </button>
       </div>
 
-      {/* table to perform CRUD operations on jobs */}
-      <div className="mt-4">
-        <table className="w-full  ">
-          <thead className=" text-left bg-gray-3 h-10">
-            <tr>
-              <th>Job Title</th>
-              <th>Company</th>
-              <th>Location</th>
-              <th>Salary</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.jobs?.map((job: Job) => (
-              <tr
-                key={job._id}
-                className="border-b hover:bg-gray-3  cursor-pointer"
-              >
-                <td>{job.title}</td>
-                <td>{job.company}</td>
-                <td>{job.location}</td>
-                <td>{job.salary}</td>
-                <td>
-                  <button
-                    className="bg-green-500 text-white p-2 rounded-lg"
-                    onClick={() => {
-                      setJobToEdit(job);
-                      setEditJobPopup(true);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button className="bg-red-500 text-white p-2 rounded-lg"
-                  onClick={()=>{
-                        setDeleteJobId(job._id)
-                        deleteJobM()
-                    
-                  }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* pagination */}
-        <div className="flex justify-center gap-4 mt-4 ">
-          <button
-            className="p-2 px-4 rounded-lg bg-gray-3"
-            disabled={page === 1}
-            onClick={handlePrevPage}
-          >
-            Prev
-          </button>
-
-          <button
-            className={`p-2 px-4 rounded-lg bg-gray-2 text-white
-                            }`}
-          >
-            {page}
-          </button>
-          <button
-            className="p-2 px-4 rounded-lg bg-gray-3"
-            disabled={page === data.pages}
-            onClick={handleNextPage}
-          >
-            Next
-          </button>
-        </div>
-        {addJopPopup && <AddJob setClose={setAddJobPopup} />}
-        {editJobPopup && <EditJob job={jobToEdit} setClose={setEditJobPopup} />}
-      </div>
+      <JobTable jobs={data.jobs} page={page} />
+      <Pagination totalPage={data.pages} currentPage={page} setPage={setPage}/>
+    
     </div>
   );
-};
-
-type Job = {
-  _id: string;
-  title: string;
-  company: string;
-  location: string;
-  salary: number;
-  description: string;
 };
 
 export default Page;
