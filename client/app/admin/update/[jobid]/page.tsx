@@ -11,10 +11,6 @@ const Page = () => {
     const params = useParams<{ jobid: string }>(); 
     const jobid = params?.jobid ?? '';
 
-    if(!jobid){
-        return <p>Job not found</p>
-    }
-
     const {data , isLoading , isError, error} = useQuery({
         queryKey: ['updateJob', jobid],
         queryFn: () => getJob(jobid)
