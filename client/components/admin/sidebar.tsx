@@ -13,7 +13,7 @@ const SideBar = () => {
   return (
     <div className={`flex flex-col w-64 ${isSidebarOpen ? 'block' : 'hidden'} border-r hidden sm:block`}>
     <div className="flex items-center h-14 border-b border px-4">
-        <Image src="/logo.png   " width={50} height={50} alt="logo" />
+        <Image src='/logo.png' width={50} height={50} alt="logo" />
     </div>
     <nav className="flex-1 overflow-y-auto  font-bold">
       <Link href="/admin/dashboard" className="block py-2 px-4  text-gray-2 border-b  hover:bg-gray-3">Dashboard</Link>
