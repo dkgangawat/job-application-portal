@@ -4,20 +4,22 @@ import JobCard from "@/components/jobCard";
 import JobSearchCard from "@/components/jobSearchCard";
 import { useQuery } from "@tanstack/react-query";
 import React, { Key, useState } from "react";
-import { getJobs } from "../api/jobs";
+import { getJobs, recommendedSearch } from "../api/jobs";
 import SearchBar from "@/components/searchBar";
 import ShowJobs from "@/components/showJobs";
 
 const Page: React.FC = () => {
- 
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: () => getJobs(1),
+  });
 
-  const {data, isLoading, isError , error} = useQuery({
-    queryKey:["jobs"],
-    queryFn: ()=> getJobs(1)
-  })
+  const { data: searchTitles, isLoading: searchIsLoading } = useQuery({
+    queryKey: ["recommendedSearchTitles"],
+    queryFn: () => recommendedSearch(),
+  });
 
-  if(isLoading) return <p>Loading...</p>
-
+  console.log(searchTitles)
   return (
     <>
       <div>
@@ -33,7 +35,7 @@ const Page: React.FC = () => {
             </p>
 
             {/* search bar  */}
-            <SearchBar/>
+            <SearchBar />
           </div>
         </div>
 
@@ -47,14 +49,21 @@ const Page: React.FC = () => {
       <section className=" mb-10">
         <h5 className=" font-semibold my-4">Suggested job searches</h5>
         <div className=" flex justify-center flex-wrap gap-2 font-bold ">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <JobSearchCard key={i} />
-          ))}
+          {
+            //@ts-ignore
+            searchTitles?.jobTitles?.map((title, index) => 
+              <JobSearchCard query={title} key={index} />
+            )
+          }
         </div>
       </section>
       <section className="">
         <h5 className=" font-semibold my-4">Recommended for you</h5>
-        <ShowJobs jobs={data?.jobs}/>
+        {isLoading ? (
+          <p className=" w-full text-center">Loading...</p>
+        ) : (
+          <ShowJobs jobs={data?.jobs} />
+        )}
       </section>
     </>
   );
@@ -66,8 +75,7 @@ type Job = {
   location: string;
   salary: number;
   description: string;
-  _id : string;
+  _id: string;
 };
-
 
 export default Page;

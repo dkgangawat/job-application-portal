@@ -15,8 +15,8 @@ export const getJob = async (id: string) => {
 };
 
 
-export const searchJobs = async (query: string) => {
-  const response = await axiosClient.get(`/search?query=${query}`);
+export const searchJobs = async (query: string, page:number) => {
+  const response = await axiosClient.get(`/search?query=${query}&page=${page}`);
   return response.data;
 };
 
@@ -34,3 +34,9 @@ export const deleteJob = async (id: string) => {
   const response = await axiosClient.delete(`/admin/${id}`);
   return response.data;
 };
+
+
+export const recommendedSearch = async () =>{
+  const response = await axiosClient.get(`/recommendedSearch`);
+  return response.data;
+}

@@ -47,6 +47,7 @@ const Pagination:React.FC<PaginationProps> = ({
           Next
         </button>
       </div>
+    <p className=" text-gray-2 text-sm  text-center font-bold my-1">showing {currentPage} of {totalPage} </p>
     </>
   );
 };
